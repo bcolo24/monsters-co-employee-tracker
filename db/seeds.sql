@@ -1,20 +1,23 @@
 INSERT INTO departments (department_name)
-('Executives'),
-('Management'),
-('Operations'),
-('Sales'),
-('Human Resources');
+VALUES
+    ('Executives'),
+    ('Management'),
+    ('Operations'),
+    ('Sales'),
+    ('Human Resources');
 
 INSERT INTO roles (job_title, salary, department_id)
-('Chief Executive Officer', 800000.00, 1),
-('General Manager', 420000.00, 2),
-('Operations Director', 150000.00, 3),
-('Sales Associate', 80000, 4),
-('HR Recruitor', 95000, 5);
+VALUES
+    ('Chief Executive Officer', 800000.00, 1),
+    ('General Manager', 420000.00, 2),
+    ('Operations Director', 150000.00, 3),
+    ('Sales Associate', 80000, 4),
+    ('HR Recruitor', 95000, 5);
 
-INSERT INTO employees (first_name, last_name, role_id, manager_id)
-('James P.', 'Sullivan', 1, NULL),
-('Michael', 'Wazowski', 2, 1),
-('Roz', 'Monster', 3, 3),
-('Randall', 'Boggs', 4, 4),
-('Celia', 'Mae', 5, 5),
+INSERT INTO employees (first_name, last_name, job_title, department_name, manager_id)
+VALUES
+    ('James', 'Sullivan', 'Chief Executive Officer', 'Executives', NULL),
+    ('Michael', 'Wazowski', 'General Manager', 'Management', 1),
+    ('Roz', 'Monster', 'Operations Director', 'Operations', 3),
+    ('Randall', 'Boggs','Sales Associate', 'Sales', 4),
+    ('Celia', 'Mae', 'HR Recruitor', 'Human Resources', 5);
