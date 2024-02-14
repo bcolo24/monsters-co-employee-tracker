@@ -19,18 +19,18 @@ async function connectDatabase() {
 }
 
 cfonts.say('Monsters & Co. \nSQL Employee Tracker', {
-    font: 'block',              // define the font face
-    align: 'center',              // define text alignment
-    colors: ['magenta'],         // define all colors
-    background: 'transparent',  // define the background color, you can also use `backgroundColor` here as key
-    letterSpacing: 1,           // define letter spacing
-    lineHeight: 1,              // define the line height
-    space: true,                // define if the output text should have empty lines on top and on the bottom
-    maxLength: '0',             // define how many character can be on one line
-    gradient: false,            // define your two gradient colors
-    independentGradient: false, // define if you want to recalculate the gradient for each new line
-    transitionGradient: false,  // define if this is a transition between colors directly
-    env: 'node'                 // define the environment cfonts is being executed in
+    font: 'block',              
+    align: 'center',              
+    colors: ['magenta'],         
+    background: 'transparent',  
+    letterSpacing: 1,           
+    lineHeight: 1,              
+    space: true,               
+    maxLength: '0',            
+    gradient: false,            
+    independentGradient: false, 
+    transitionGradient: false, 
+    env: 'node'                 
 });
 
 function start() {
@@ -74,7 +74,7 @@ function start() {
                     updateEmployeeRole();
                     break;
                 case "Exit":
-                    connection.end();
+                    db.end();
                     console.log("Goodbye!");
                     break;
             }
@@ -128,6 +128,7 @@ function addDepartment() {
         start(); // Go back to the main menu
       } catch (err) {
         console.error('Error adding department:', err);
+        start();
       }
     });
 }
@@ -164,6 +165,7 @@ function addRole() {
     });
 }
 
+//add employee function
 function addEmployee() {
     inquirer
       .prompt([
@@ -184,6 +186,11 @@ function addEmployee() {
         },
         {
           type: 'input',
+          name: 'departmentName',
+          message: "Enter the department name for the role:",
+        },
+        {
+          type: 'input',
           name: 'managerId',
           message: "Enter the manager's ID for the new employee (if applicable):",
         },
@@ -191,15 +198,13 @@ function addEmployee() {
       .then((answer) => {
         const query = 'INSERT INTO employees (first_name, last_name, job_title, department_name, manager_id) VALUES (?, ?, ?, ?, ?)';
   
-        db.query(
-          query,
-          [answer.firstName, answer.lastName, answer.job_title, answer.managerId || null],
+        db.query(query,[answer.firstName, answer.lastName, answer.jobTitle, answer.departmentName, answer.managerId || null],
           (err, results) => {
             if (err) {
               console.error('Error adding employee:', err.message);
             } else {
               console.log(`Employee '${answer.firstName} ${answer.lastName}' added successfully!`);
-              // start(); // Go back to the main menu or adapt as needed
+              start(); // Go back to the main menu or adapt as needed
             }
           }
         );
@@ -230,8 +235,10 @@ async function updateEmployeeRole() {
     const updateQuery = "UPDATE employees SET role_id = ? WHERE id = ?";
     await db.query(updateQuery, [answers.roleId, answers.employeeId]);
     console.log('Employee role updated successfully.');
+    start();
   } catch (err) {
     console.error('Error updating employee role:', err);
+    start();
   }
 }
 
